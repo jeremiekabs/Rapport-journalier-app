@@ -17,8 +17,12 @@
                     <textarea name="description" class="form-control" rows="3"></textarea>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label fw-bold">Prix :</label>
-                    <input type="number" name="prix" class="form-control" step="0.01" required>
+                    <label class="form-label fw-bold">Prix d'achat :</label>
+                    <input type="number" name="prix_achat" class="form-control" step="0.01" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Indice :</label>
+                    <input type="number" name="indice" class="form-control" step="0.01" required>
                 </div>
                 <div class="mb-3">
                     <label class="form-label fw-bold">Stock :</label>

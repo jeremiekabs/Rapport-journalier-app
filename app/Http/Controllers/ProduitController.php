@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -24,15 +25,23 @@ class ProduitController extends Controller
         $request->validate([
             'nom' => 'required|unique:produits|max:255',
             'description' => 'nullable|string',
-            'prix' => 'required|numeric|min:0',
+            'prix_achat' => 'required|numeric|min:0',
+            'indice' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'categorie_id' => 'required|exists:categories,id'
+        ]);
+
+        // Calcul du prix et du gain
+        $request->merge([
+            'prix' => $request->prix_achat * $request->indice,
+            'gain' => ($request->prix_achat * $request->indice) - $request->prix_achat,
         ]);
 
         Produit::create($request->all());
 
         return redirect()->route('produits.index')->with('success', 'Produit ajouté avec succès.');
     }
+
 
     public function edit(Produit $produit)
     {
@@ -59,5 +68,9 @@ class ProduitController extends Controller
     {
         $produit->delete();
         return redirect()->route('produits.index')->with('success', 'Produit supprimé.');
+    }
+    public function show(Produit $produit)
+    {
+        return view('produit.show', compact('produit'));
     }
 }

@@ -20,9 +20,19 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Quantité :</label>
-                    <input type="number" name="quantite" class="form-control" min="1" required>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Quantité :</label>
+                            <input type="number" name="quantite" class="form-control" min="1" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Prix négocié (optionnel) :</label>
+                            <input type="number" name="prix_nego" class="form-control" step="0.01" placeholder="Saisissez un prix négocié">
+                        </div>
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-success w-100">✅ Vendre</button>
             </form>

@@ -40,6 +40,7 @@
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Supprimer ce produit ?')">🗑️ Supprimer</button>
                                     </form>
+                                    <a href="{{ route('produit.edit', $produit->id) }}" >👁️‍🗨️ Détails</a>
                                 </td>
                             </tr>
                         @endforeach

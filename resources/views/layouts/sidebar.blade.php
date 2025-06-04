@@ -60,7 +60,7 @@
                             <form action="{{ route('logout') }}" method="POST">
                                 @csrf
                                 <button class="btn btn-danger d-flex" href="javascript:void(0);">
-                                    <small class="align-middle">Logout</small>
+                                    <small class="align-middle">Se deconnecter</small>
                                     <i class="ri ri-logout-box-r-line ms-2 ri-xs"></i>
                                 </button>
                             </form>
@@ -101,24 +101,10 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('categories.create') ? 'active' : '' }}"
-                    href="{{ route('categories.create') }}">
-                    <i class="icon-base ri ri-group-line icon-sm me-1_5"></i>
-                    ENR. CATEGORIE
-                </a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('categories.index') ? 'active' : '' }}"
                     href="{{ route('categories.index') }}">
                     <i class="icon-base ri ri-eye-line icon-lg"></i>
                     VOIR CATEGORIE
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('produits.create') ? 'active' : '' }}"
-                    href="{{ route('produits.create') }}">
-                    <i class="icon-base ri ri-group-line icon-sm me-1_5"></i>
-                    ENR. PRODUIT
                 </a>
             </li>
             <li class="nav-item">

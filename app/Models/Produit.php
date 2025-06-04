@@ -10,7 +10,10 @@ class Produit extends Model
     protected $fillable = [
         "nom",
         "description",
+        "prix_achat",
+        "indice",
         "prix",
+        "gain",
         "stock",
         "categorie_id"
     ];

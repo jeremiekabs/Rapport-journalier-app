@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Visite;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 class VisiteController extends Controller
 {
     public function index()
     {
-        $visites = Visite::orderBy('created_at', 'desc')->paginate(15);
+        $visites = Visite::with('user')->orderBy('created_at', 'desc')->paginate(15);
         return view('visite.index', compact('visites'));
     }
 
@@ -61,7 +62,8 @@ class VisiteController extends Controller
         $insert->visite_site = $request->visite_site;
         $insert->vente = $request->vente;
         $insert->commentaires = $request->commentaires;
-        $insert->user_id = $request->user_id;
+
+        $insert->user_id = Auth::id();
 
         $resultat = $insert->save();
 

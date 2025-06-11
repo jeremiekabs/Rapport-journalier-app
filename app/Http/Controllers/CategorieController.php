@@ -8,7 +8,7 @@ class CategorieController extends Controller
 {
     public function index()
     {
-        $categories = Categorie::all();
+        $categories = Categorie::orderBy('created_at', 'Desc')->get();
         return view('categorie.index', compact('categories'));
     }
 

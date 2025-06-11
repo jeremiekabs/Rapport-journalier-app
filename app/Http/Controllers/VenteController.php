@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Alerts_stock;
 use App\Models\Produit;
 use App\Models\Vente;
 use Illuminate\Http\Request;
 
 class VenteController extends Controller
 {
+    public function index()
+    {
+        $ventes = Vente::with('produit')->orderBy('created_at', 'desc')->paginate(10);
+        return view('vendre.index', compact('ventes'));
+    }
     public function create()
     {
         $produits = Produit::all();
@@ -42,5 +48,21 @@ class VenteController extends Controller
         }
 
         return redirect()->route('produits.index')->with('error', 'Stock insuffisant pour cette vente.');
+    }
+    public function alertes(Request $request)
+    {
+        $query = Alerts_stock::query()->where('is_alert', true);
+
+        // Récupérer tous les produits pour le filtre
+        $produits = Produit::pluck('nom', 'id');
+
+        // Filtrer par nom de produit
+        if ($request->filled('produit_id')) {
+            $query->where('produit_id', $request->produit_id);
+        }
+
+        $alertes = $query->paginate(12);
+
+        return view('vendre.stock_rupture', compact('alertes', 'produits'));
     }
 }

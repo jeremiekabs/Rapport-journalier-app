@@ -1,198 +1,282 @@
 @extends('layouts.template')
-
 @section('content')
     <div class="container-fluid mt-4">
-        <h2 class="mb-4 text-center">📊 Tableau de Bord - Gestion des Visites</h2>
+        <!-- Header amélioré -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="mb-0 fw-bold">📊 Tableau de Bord - Gestion des Visites</h2>
+                <p class="text-muted mb-0">Analytique et gestion des visites en temps réel</p>
+            </div>
+            <div class="badge bg-primary bg-opacity-10 text-primary p-2 rounded-3">
+                <i class="ri-dashboard-line align-middle"></i> Dashboard
+            </div>
+        </div>
 
         <div class="row g-4 d-flex justify-content-center">
-            <!-- Statistiques clés -->
+            <!-- Cartes statistiques améliorées -->
             <div class="col-xl-3 col-md-6">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <h6 class="mb-3">Visites Aujourd'hui</h6>
-                        <h4 class="mb-2" id="visitesToday">{{ $visitesToday }}</h4>
-                        <p class="text-success mb-3">📅 {{ now()->format('d/m/Y') }}</p>
-                        <div class="badge bg-label-primary rounded-pill">Mises à jour en temps réel</div>
-                    </div>
-                    <div class="position-relative text-center">
-                        <i class="ri-calendar-line icon-48px text-primary"></i>
+                <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h6 class="mb-3 text-muted text-uppercase small fw-bold">Visites Aujourd'hui</h6>
+                                <h2 class="mb-2 fw-bold" id="visitesToday">{{ $visitesToday }}</h2>
+                                <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill">
+                                    <i class="ri-calendar-line align-middle"></i> {{ now()->format('d/m/Y') }}
+                                </span>
+                            </div>
+                            <div class="bg-primary bg-opacity-10 p-3 rounded">
+                                <i class="ri-calendar-line icon-36px text-primary"></i>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar bg-primary" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="col-xl-3 col-md-6">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <h6 class="mb-3">Total Visites</h6>
-                        <h4 class="mb-2" id="totalVisites">{{ $totalVisites }}</h4>
-                        <p class="text-info mb-3">Depuis le lancement</p>
-                        <div class="badge bg-label-secondary rounded-pill">Toutes les visites enregistrées</div>
-                    </div>
-                    <div class="position-relative text-center">
-                        <i class="ri-group-line icon-48px text-info"></i>
+                <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h6 class="mb-3 text-muted text-uppercase small fw-bold">Total Visites</h6>
+                                <h2 class="mb-2 fw-bold" id="totalVisites">{{ $totalVisites }}</h2>
+                                <span class="badge bg-info bg-opacity-10 text-info rounded-pill">
+                                    <i class="ri-group-line align-middle"></i> Depuis le lancement
+                                </span>
+                            </div>
+                            <div class="bg-info bg-opacity-10 p-3 rounded">
+                                <i class="ri-group-line icon-36px text-info"></i>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar bg-info" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Graphique des visites -->
+            <!-- Graphique des visites (conservé tel quel) -->
             <div class="col-xl-6">
-                <div class="card">
-                    <div class="card-header d-flex justify-content-between">
-                        <h5 class="m-0">Statistiques des Visites</h5>
+                <div class="card border-0 shadow-sm rounded-3 h-100">
+                    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center py-3">
+                        <h5 class="m-0 fw-bold">Statistiques des Visites</h5>
                         <div class="dropdown">
-                            <button class="btn text-body-secondary p-0" type="button" id="statsDropdown"
+                            <button class="btn btn-sm btn-light rounded-pill" type="button" id="statsDropdown"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="ri-more-2-line icon-24px"></i>
+                                <i class="ri-more-2-line"></i> Options
                             </button>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="#">Dernière Semaine</a></li>
-                                <li><a class="dropdown-item" href="#">Dernier Mois</a></li>
-                                <li><a class="dropdown-item" href="#">Année</a></li>
+                            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                                <li><a class="dropdown-item" href="#"><i class="ri-calendar-line me-2"></i>Dernière Semaine</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="ri-calendar-2-line me-2"></i>Dernier Mois</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="ri-calendar-event-line me-2"></i>Année</a></li>
                             </ul>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <canvas id="visitesChart"></canvas>
+                    <div class="card-body p-4">
+                        <canvas id="visitesChart" height="250"></canvas>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Formulaire de filtrage -->
-        <div class="card mt-4">
-            <div class="card-header">
-                <h5 class="m-0">🔍 Filtrer les Visites</h5>
+        <!-- Section de filtrage améliorée -->
+        <div class="card border-0 shadow-sm rounded-3 mt-4 overflow-hidden">
+            <div class="card-header bg-primary text-white py-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="m-0"><i class="ri-filter-line me-2"></i>Filtrer les Visites</h5>
+                    <button class="btn btn-sm btn-light rounded-pill" type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapse">
+                        <i class="ri-arrow-down-s-line"></i>
+                    </button>
+                </div>
             </div>
-            <div class="card-body">
-                <form method="GET" id="filterForm" class="row g-3">
-                    <div class="col-md-3">
-                        <input type="date" name="date_enr" class="form-control" placeholder="📅 Date">
-                    </div>
-                    <div class="col-md-3">
-                        <select name="vente_directe" class="form-select">
-                            <option value="">Vente Directe</option>
-                            <option value="NA">NA</option>
-                            <option value="OUI">OUI</option>
-                            <option value="NON">NON</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <select name="visite_site" class="form-select">
-                            <option value="">Visite Site</option>
-                            <option value="NA">NA</option>
-                            <option value="OUI">OUI</option>
-                            <option value="NON">NON</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <select name="vente" class="form-select">
-                            <option value="">Vente</option>
-                            <option value="NA">NA</option>
-                            <option value="OUI">OUI</option>
-                            <option value="NON">NON</option>
-                        </select>
-                    </div>
-                    <div class="col-md-12 text-center">
-                        <button type="submit" class="btn btn-primary">Appliquer les filtres</button>
-                    </div>
-                </form>
-                <!-- Résultats après filtrage -->
-                <div class="card mt-4">
-                    <div class="card-header">
-                        <h5 class="m-0">📋 Résultats des Visites Filtrées</h5>
-                    </div>
-                    @if (!empty($filtresActifs))
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div class="alert alert-info d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h5>📌 Filtres appliqués :</h5>
-                                    <ul>
-                                        @foreach ($filtresActifs as $nomFiltre => $valeur)
-                                            <li><strong>{{ $nomFiltre }} :</strong> {{ $valeur }}</li>
-                                        @endforeach
-                                    </ul>
-                                    <a href="{{ route('dashboard') }}" class="btn btn-sm btn-secondary">Réinitialiser les
-                                        filtres</a>
-                                </div>
-
-                                <!-- Nombre trouvé affiché sur la même ligne, bien à droite -->
-                                <p class="text-primary mt-2"> {{ $nombreResultats }} visite(s) trouvée(s) après filtrage
-                                </p>
+            <div class="collapse show" id="filterCollapse">
+                <div class="card-body p-4">
+                    <form method="GET" id="filterForm" class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label small text-muted">Date</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="ri-calendar-line"></i></span>
+                                <input type="date" name="date_enr" class="form-control border-start-0">
                             </div>
-
                         </div>
-                    @endif
-
-                    <div class="card-body">
-                        @if ($visites->count() > 0)
-                            <!-- Ajout de la classe table-responsive pour la responsivité -->
-                            <div class="table-responsive">
-                                <table class="table table-striped table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Date</th>
-                                            <th>Nom</th>
-                                            <th>Entreprise</th>
-                                            <th>Raison</th>
-                                            <th>Statut</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($visites as $visite)
-                                            <tr>
-                                                <td>{{ $visite->date_enr }}</td>
-                                                <td>{{ $visite->nom }} {{ $visite->prenom }}</td>
-                                                <td>{{ $visite->entreprise ?? 'Particulier' }}</td>
-                                                <td>{{ Str::limit($visite->raison_visite, 30) }}</td>
-                                                <td>
-                                                    <span
-                                                        class="badge bg-{{ $visite->statut == 'Terminé' ? 'success' : 'warning' }}">
-                                                        {{ $visite->statut }}
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    <a href="{{ route('visite.show', $visite->id) }}"
-                                                        class="text-info mx-2" title="Voir">
-                                                        <i class="ri-eye-line ri-lg"></i>
-                                                    </a>
-                                                    <a href="{{ route('visite.edit', $visite->id) }}"
-                                                        class="text-warning mx-2" title="Modifier">
-                                                        <i class="ri-edit-line ri-lg"></i>
-                                                    </a>
-                                                    <form action="{{ route('visite.destroy', $visite->id) }}"
-                                                        method="POST" style="display:inline;"
-                                                        onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette visite ?');">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit"
-                                                            class="border-0 bg-transparent text-danger mx-2"
-                                                            title="Supprimer">
-                                                            <i class="ri-delete-bin-line ri-lg"></i>
-                                                        </button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!-- Pagination centrée -->
-                            <div class="d-flex justify-content-center mt-3">
-                                {{ $visites->appends(request()->query())->links() }}
-                            </div>
-                        @else
-                            <p class="text-center text-danger">🚨 Aucun résultat trouvé selon les critères sélectionnés !
-                            </p>
-                        @endif
-                    </div>
-
-                </div>
-
-                <div class="card mt-4" id="resultatsFiltrage">
+                        <div class="col-md-3">
+                            <label class="form-label small text-muted">Vente Directe</label>
+                            <select name="vente_directe" class="form-select">
+                                <option value="">Tous</option>
+                                <option value="NA">NA</option>
+                                <option value="OUI">OUI</option>
+                                <option value="NON">NON</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small text-muted">Visite Site</label>
+                            <select name="visite_site" class="form-select">
+                                <option value="">Tous</option>
+                                <option value="NA">NA</option>
+                                <option value="OUI">OUI</option>
+                                <option value="NON">NON</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small text-muted">Vente</label>
+                            <select name="vente" class="form-select">
+                                <option value="">Tous</option>
+                                <option value="NA">NA</option>
+                                <option value="OUI">OUI</option>
+                                <option value="NON">NON</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12 text-end mt-2">
+                            <button type="submit" class="btn btn-primary rounded-pill px-4">
+                                <i class="ri-filter-line me-1"></i> Appliquer
+                            </button>
+                            <a href="{{ route('dashboard') }}" class="btn btn-outline-secondary rounded-pill px-4 ms-2">
+                                <i class="ri-refresh-line me-1"></i> Réinitialiser
+                            </a>
+                        </div>
+                    </form>
                 </div>
             </div>
+        </div>
 
+        <!-- Résultats améliorés -->
+        <div class="card border-0 shadow-sm rounded-3 mt-4 overflow-hidden" id="resultatsFiltrage">
+            <div class="card-header bg-white border-0 py-3">
+                <h5 class="m-0 fw-bold"><i class="ri-list-check-2 me-2"></i>Résultats des Visites</h5>
+            </div>
+            <div class="card-body p-0">
+                @if (!empty($filtresActifs))
+                    <div class="alert alert-light border-bottom rounded-0 d-flex justify-content-between align-items-center p-3">
+                        <div>
+                            <h6 class="mb-2 fw-bold"><i class="ri-information-line me-2"></i>Filtres appliqués</h6>
+                            <div class="d-flex flex-wrap gap-2">
+                                @foreach ($filtresActifs as $nomFiltre => $valeur)
+                                    <span class="badge bg-light text-dark border rounded-pill px-3 py-1">
+                                        <i class="ri-filter-line me-1"></i> {{ $nomFiltre }}: {{ $valeur }}
+                                    </span>
+                                @endforeach
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <span class="badge bg-primary rounded-pill px-3 py-2">
+                                <i class="ri-search-eye-line me-1"></i> {{ $nombreResultats }} visite(s) trouvée(s)
+                            </span>
+                        </div>
+                    </div>
+                @endif
+
+                @if ($visites->count() > 0)
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th class="ps-4 py-3 text-uppercase small fw-bold">Date</th>
+                                    <th class="py-3 text-uppercase small fw-bold">Nom</th>
+                                    <th class="py-3 text-uppercase small fw-bold">Entreprise ou Particulier</th>
+                                    <th class="py-3 text-uppercase small fw-bold">Raison</th>
+                                    <th class="py-3 text-uppercase small fw-bold">Statut</th>
+                                    <th class="pe-4 py-3 text-uppercase small fw-bold text-end">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($visites as $visite)
+                                    <tr class="border-top">
+                                        <td class="ps-4">
+                                            <div class="d-flex align-items-center">
+                                                <div class="bg-primary bg-opacity-10 p-2 rounded me-3">
+                                                    <i class="ri-calendar-event-line text-primary"></i>
+                                                </div>
+                                                <span class="fw-medium">{{ $visite->date_enr }}</span> 
+                                            </div>
+                                            <small class="text-muted">{{ $visite->created_at->diffForHumans() }}</small>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="bg-info bg-opacity-10 p-2 rounded me-3">
+                                                    <i class="ri-user-line text-info"></i>
+                                                </div>
+                                                <span>{{ $visite->nom }} {{ $visite->prenom }}</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-light text-dark border">
+                                                {{ $visite->entreprise ?? 'Particulier' }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="d-inline-block text-truncate" style="max-width: 150px;" title="{{ $visite->raison_visite }}">
+                                                {{ $visite->raison_visite }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge rounded-pill bg-{{ $visite->statut == 'Terminé' ? 'success' : 'warning' }}-subtle text-{{ $visite->statut == 'Terminé' ? 'success' : 'warning' }} py-1 px-3">
+                                                <i class="ri-{{ $visite->statut == 'Terminé' ? 'check-line' : 'time-line' }} me-1"></i> {{ $visite->statut }}
+                                            </span>
+                                        </td>
+                                        <td class="pe-4 text-end">
+                                            <div class="d-flex justify-content-end">
+                                                <a href="{{ route('visite.show', $visite->id) }}" class="btn btn-sm btn-light rounded-circle me-2" title="Voir">
+                                                    <i class="ri-eye-line"></i>
+                                                </a>
+                                                @if (Auth::check() && Auth::user()->statut == 3)
+                                                <a href="{{ route('visite.edit', $visite->id) }}" class="btn btn-sm btn-light rounded-circle me-2" title="Modifier">
+                                                    <i class="ri-edit-line"></i>
+                                                </a>
+                                                <form action="{{ route('visite.destroy', $visite->id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette visite ?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-sm btn-light rounded-circle" title="Supprimer">
+                                                        <i class="ri-delete-bin-line text-danger"></i>
+                                                    </button>
+                                                </form>
+                                                @else
+                                                    <button class="btn btn-sm btn-secondary rounded-circle"
+                                                        title="Modifier" style="margin-right: 10px" disabled>
+                                                        <i class="ri-edit-line"></i>
+                                                    </button>
+
+                                                    <button class="btn btn-sm btn-secondary rounded-circle"
+                                                        title="Supprimer" disabled>
+                                                        <i class="ri-delete-bin-line text-danger"></i>
+                                                    </button>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer bg-white border-0 py-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="text-muted small">
+                                Affichage de {{ $visites->firstItem() }} à {{ $visites->lastItem() }} sur {{ $visites->total() }} entrées
+                            </div>
+                            <div>
+                                {{ $visites->appends(request()->query())->links('pagination::bootstrap-5') }}
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <div class="text-center p-5">
+                        <div class="mb-3">
+                            <i class="ri-search-off-line text-muted" style="font-size: 5rem;"></i>
+                        </div>
+                        <h5 class="fw-bold text-muted">Aucun résultat trouvé</h5>
+                        <p class="text-muted">Aucune visite ne correspond aux critères de filtrage sélectionnés.</p>
+                        <a href="{{ route('dashboard') }}" class="btn btn-primary rounded-pill px-4">
+                            <i class="ri-refresh-line me-1"></i> Réinitialiser les filtres
+                        </a>
+                    </div>
+                @endif
+            </div>
         </div>
 
         <script>
@@ -220,18 +304,56 @@
                                         statsData.annee
                                     ],
                                     backgroundColor: ["#dc3545", "#007bff", "#28a745", "#ffc107"],
+                                    borderRadius: 6
                                 }]
                             },
                             options: {
                                 responsive: true,
-                                maintainAspectRatio: false
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
+                                        display: false
+                                    },
+                                    tooltip: {
+                                        backgroundColor: '#2a3042',
+                                        titleFont: {
+                                            size: 14,
+                                            weight: 'bold'
+                                        },
+                                        bodyFont: {
+                                            size: 12
+                                        },
+                                        padding: 12,
+                                        cornerRadius: 8,
+                                        displayColors: false
+                                    }
+                                },
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        grid: {
+                                            drawBorder: false,
+                                            color: "rgba(0, 0, 0, 0.05)"
+                                        },
+                                        ticks: {
+                                            padding: 12
+                                        }
+                                    },
+                                    x: {
+                                        grid: {
+                                            display: false,
+                                            drawBorder: false
+                                        },
+                                        ticks: {
+                                            padding: 12
+                                        }
+                                    }
+                                }
                             }
                         });
                     })
                     .catch(error => console.error("Erreur lors du chargement des statistiques :", error));
-            });
 
-            document.addEventListener("DOMContentLoaded", function() {
                 // Vérifie si des filtres sont appliqués
                 if (window.location.search.includes("date_enr") ||
                     window.location.search.includes("vente_directe") ||
@@ -245,9 +367,8 @@
                         });
                     }, 500); // Petite pause pour bien charger la page
                 }
-            });
 
-            document.addEventListener("DOMContentLoaded", function() {
+                // Pré-remplissage des filtres
                 const params = new URLSearchParams(window.location.search);
                 params.forEach((value, key) => {
                     const input = document.querySelector(`[name="${key}"]`);
@@ -255,5 +376,4 @@
                 });
             });
         </script>
-
     @endsection

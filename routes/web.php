@@ -7,6 +7,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DashboardProduitController;
 use App\Http\Controllers\ProduitController;
 use App\Http\Controllers\VenteController;
+use App\Models\Vente;
+
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->group(function () {
@@ -62,8 +64,12 @@ Route::put('/produits/{produit}', [ProduitController::class, 'update'])->name('p
 Route::delete('/produits/{produit}', [ProduitController::class, 'destroy'])->name('produits.destroy');
 Route::get('/produits/{produit}', [ProduitController::class, 'show'])->name('produits.show');
 
-
 Route::get('/dashboard', [DashboardProduitController::class, 'index'])->name('dashboardProduit');
+
+Route::get('/vente/index', [VenteController::class, 'index'])->name('vente.index');
+Route::get('/vente/rupture_stock',[VenteController::class, 'alertes'])->name('vente.rupture');
+
+Route::get('/stock-alertes', [VenteController::class, 'alertes'])->name('stock.alerte');
 
 Route::get('/vente', [VenteController::class, 'create'])->name('vente.create');
 Route::post('/vente', [VenteController::class, 'vendre'])->name('vente.vendre');

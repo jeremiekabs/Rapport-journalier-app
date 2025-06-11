@@ -10,7 +10,7 @@ class ProduitController extends Controller
 {
     public function index()
     {
-        $produits = Produit::with('categorie')->get();
+        $produits = Produit::with('categorie')->orderBy('created_at', 'Desc')->get();
         return view('produit.index', compact('produits'));
     }
 
@@ -54,15 +54,23 @@ class ProduitController extends Controller
         $request->validate([
             'nom' => 'required|max:255|unique:produits,nom,' . $produit->id,
             'description' => 'nullable|string',
-            'prix' => 'required|numeric|min:0',
+            'prix_achat' => 'required|numeric|min:0',
+            'indice' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'categorie_id' => 'required|exists:categories,id'
         ]);
 
+        // Recalcul du prix et du gain en fonction des nouvelles valeurs
+        $request->merge([
+            'prix' => $request->prix_achat * $request->indice,
+            'gain' => ($request->prix_achat * $request->indice) - $request->prix_achat,
+        ]);
+
         $produit->update($request->all());
 
-        return redirect()->route('produits.index')->with('success', 'Produit mis à jour.');
+        return redirect()->route('produits.index')->with('success', 'Produit mis à jour avec succès.');
     }
+
 
     public function destroy(Produit $produit)
     {

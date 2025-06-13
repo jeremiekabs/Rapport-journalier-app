@@ -65,11 +65,12 @@ Route::delete('/produits/{produit}', [ProduitController::class, 'destroy'])->nam
 Route::get('/produits/{produit}', [ProduitController::class, 'show'])->name('produits.show');
 
 Route::get('/dashboard', [DashboardProduitController::class, 'index'])->name('dashboardProduit');
-
-Route::get('/vente/index', [VenteController::class, 'index'])->name('vente.index');
-Route::get('/vente/rupture_stock',[VenteController::class, 'alertes'])->name('vente.rupture');
+//Route::get('/vente/filtrage', [DashboardProduitController::class, 'filtrage'])->name('vente.filtrage');
 
 Route::get('/stock-alertes', [VenteController::class, 'alertes'])->name('stock.alerte');
-
+Route::get('/vente/index', [VenteController::class, 'index'])->name('vente.index');
+Route::get('/vente/facture/{id}', [VenteController::class, 'facture'])->name('vente.facture');
+Route::get('/vente/rupture_stock',[VenteController::class, 'alertes'])->name('vente.rupture');
 Route::get('/vente', [VenteController::class, 'create'])->name('vente.create');
 Route::post('/vente', [VenteController::class, 'vendre'])->name('vente.vendre');
+

@@ -34,7 +34,7 @@ class VenteController extends Controller
             // Utilisation du prix négocié s'il est renseigné, sinon on prend le prix normal
             $prix_total = $request->prix_nego ? $request->prix_nego * $request->quantite : $produit->prix * $request->quantite;
 
-            Vente::create([
+            $vente = Vente::create([
                 'produit_id' => $produit->id,
                 'quantite' => $request->quantite,
                 'prix_nego' => $request->prix_nego, // Enregistrement du prix négocié
@@ -44,11 +44,20 @@ class VenteController extends Controller
             // Vérification après la vente
             $produit->verifierStock();
 
-            return redirect()->route('produits.index')->with('success', 'Vente enregistrée avec succès.');
+            return redirect()->route('vente.facture', ['id' => $vente->id])->with('success', 'Vente enregistrée avec succès.');
         }
 
-        return redirect()->route('produits.index')->with('error', 'Stock insuffisant pour cette vente.');
+        return redirect()->route('vente.index')->with('error', 'Stock insuffisant pour cette vente.');
     }
+
+    public function facture($id)
+    {
+        $vente = Vente::with('produit')->findOrFail($id);
+
+        return view('vendre.facture', compact('vente'));
+    }
+
+
     public function alertes(Request $request)
     {
         $query = Alerts_stock::query()->where('is_alert', true);

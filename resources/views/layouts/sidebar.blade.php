@@ -107,7 +107,7 @@
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item py-2 px-3 d-flex align-items-center hover-bg-primary hover-bg-opacity-10" href="#">
+                            <a class="dropdown-item py-2 px-3 d-flex align-items-center hover-bg-primary hover-bg-opacity-10" href="{{ route('visite.index')}}">
                                 <span class="d-flex align-items-center w-100">
                                     <i class="ri-line-chart-line me-2"></i>
                                     <span>Visites aujourd'hui</span>

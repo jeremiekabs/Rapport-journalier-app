@@ -52,6 +52,8 @@
                                     <th class="py-3 text-uppercase small fw-bold">Catégorie</th>
                                     <th class="py-3 text-uppercase small fw-bold">Prix</th>
                                     <th class="py-3 text-uppercase small fw-bold">Stock</th>
+                                    <th class="py-3 text-uppercase small fw-bold">Modifié le</th>
+                                    <th class="py-3 text-uppercase small fw-bold">Description</th>
                                     <th class="pe-4 py-3 text-uppercase small fw-bold text-end">Actions</th>
                                 </tr>
                             </thead>
@@ -81,6 +83,16 @@
                                                 {{ $produit->stock }} unité(s)
                                             </span>
                                         </td>
+                                        <td class="fw-bold text-success">
+                                            {{ $produit->description }} 
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-light text-dark border rounded-pill px-5">
+                                                Créé : {{ $produit->created_at->diffForHumans() }}<br>
+                                                Modifié : {{ $produit->updated_at->diffForHumans() }}
+                                            </span>
+                                        </td>
+
                                         <td class="pe-4 text-end">
                                             <div class="d-flex justify-content-end gap-2">
 

@@ -11,7 +11,7 @@
 
     <style>
         body {
-            background: url("{{ asset('../assets/img/avatars/arriere.jpg') }}") no-repeat center center fixed;
+            background: url("{{ asset('../assets/img/avatars/bpcfu.png') }}") no-repeat center center fixed;
             background-size: cover;
         }
         .register-container {
@@ -39,7 +39,7 @@
     <div class="container register-container">
         <div class="card register-card">
             <div class="text-center">
-                <img src="{{ asset('../assets/img/avatars/smart.png') }}" alt="Logo">
+                <img src="{{ asset('../assets/img/avatars/bpcfu.png') }}" alt="Logo">
                 <h1 class="text-center text-primary">CREATION DE COMPTE</h1>
             </div>
 

@@ -21,61 +21,94 @@
             <ul class="navbar-nav flex-row align-items-center ms-md-auto gap-2">
                 <!-- Workspace Button -->
                 <li class="nav-item lh-1 me-2">
-                    <a class="btn btn-outline-primary btn-sm rounded-pill px-3 d-flex align-items-center" href="#">
-                        <i class="ri-share-box-line me-1"></i> 
+                    <a class="btn btn-outline-primary btn-sm rounded-pill px-3 d-flex align-items-center"
+                        href="#">
+                        <i class="ri-share-box-line me-1"></i>
                         <span class="d-none d-lg-inline">Espace de travail</span>
                     </a>
                 </li>
 
                 <!-- Notification Bell -->
                 <li class="nav-item dropdown notification-dropdown">
-                    <a class="nav-link position-relative p-2 rounded-circle bg-light bg-opacity-50 hover-bg-opacity-100" 
-                       href="javascript:void(0);" data-bs-toggle="dropdown">
+                    <a class="nav-link position-relative p-2 rounded-circle bg-light bg-opacity-50 hover-bg-opacity-100"
+                        href="javascript:void(0);" data-bs-toggle="dropdown" id="notif-toggler">
                         <i class="icon-base ri-notification-3-line icon-md"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            3
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                            id="notif-count">
+                            0
                         </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end py-0 overflow-hidden border-0 shadow-lg">
                         <div class="dropdown-menu-header border-bottom bg-primary bg-opacity-10">
                             <div class="d-flex align-items-center justify-content-between py-2 px-3">
                                 <h6 class="mb-0 fw-semibold">Notifications</h6>
-                                <span class="badge bg-primary rounded-pill">3 Nouveaux</span>
+                                <span class="badge bg-primary rounded-pill" id="notif-header-count">0</span>
                             </div>
                         </div>
-                        <div class="notification-list bg-light">
-                            <a href="#" class="dropdown-item py-3 border-bottom d-flex hover-bg-primary hover-bg-opacity-10">
-                                <div class="flex-shrink-0">
-                                    <i class="ri-checkbox-circle-fill text-success"></i>
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                    <h6 class="mb-1">Nouvelle vente enregistrée</h6>
-                                    <small class="text-muted">Il y a 5 min</small>
-                                </div>
-                            </a>
-                            <a href="#" class="dropdown-item py-3 border-bottom d-flex hover-bg-primary hover-bg-opacity-10">
-                                <div class="flex-shrink-0">
-                                    <i class="ri-user-follow-fill text-info"></i>
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                    <h6 class="mb-1">Nouveau visiteur</h6>
-                                    <small class="text-muted">Il y a 1 heure</small>
-                                </div>
-                            </a>
+                        <div class="notification-list bg-light" id="notif-list">
+                            <div class="text-center py-3"><em>Chargement...</em></div>
                         </div>
-                        <div class="dropdown-menu-footer bg-light">
-                            <a href="#" class="text-primary d-block text-center py-2 fw-semibold">Voir toutes</a>
+                        <div class="dropdown-menu-footer bgx²light">
+                            <a href="" class="text-primary d-block text-center py-2">Nous ne recuperons que les 8 derniers notifications</a>
                         </div>
                     </div>
+
+                    <!-- Script inclus dans la cloche -->
+                    <script>
+                        function chargerNotifications() {
+                            fetch('/notifications/fetch')
+                                .then(res => res.json())
+                                .then(data => {
+                                    const count = data.count;
+                                    const notifications = data.notifications;
+
+                                    document.getElementById('notif-count').textContent = count > 0 ? count : '';
+                                    document.getElementById('notif-header-count').textContent = count > 0 ? count + ' Nouveaux' :
+                                        'Aucune';
+
+                                    let html = '';
+                                    notifications.forEach(notif => {
+                                        html += `
+                        <a href="#" class="dropdown-item py-3 border-bottom d-flex hover-bg-primary hover-bg-opacity-10">
+                            <div class="flex-shrink-0">
+                                <i class="${notif.icon}"></i>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="mb-1">${notif.title}</h6>
+                                <small class="text-muted">${notif.time}</small>
+                            </div>
+                        </a>`;
+                                    });
+
+                                    document.getElementById('notif-list').innerHTML = html ||
+                                        '<div class="text-center py-3"><em>Aucune notification aujourd’hui.</em></div>';
+                                })
+                                .catch(err => console.error('Erreur notif:', err));
+                        }
+
+                        document.addEventListener('DOMContentLoaded', () => {
+                            const btn = document.getElementById('notif-toggler');
+                            if (btn) {
+                                btn.addEventListener('click', chargerNotifications);
+                            }
+
+                            chargerNotifications();
+                            setInterval(chargerNotifications, 15000);
+                        });
+                    </script>
                 </li>
+
+
 
                 <!-- User Profile -->
                 <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                    <a class="nav-link dropdown-toggle hide-arrow p-0 ms-2" href="javascript:void(0);" data-bs-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle hide-arrow p-0 ms-2" href="javascript:void(0);"
+                        data-bs-toggle="dropdown">
                         <div class="avatar avatar-online position-relative">
-                            <img src="{{ asset('../assets/img/avatars/2.png') }}" alt="alt" 
-                                 class="rounded-circle border border-3 border-primary shadow-sm" />
-                            <span class="position-absolute bottom-0 end-0 bg-success rounded-circle p-1 border border-2 border-white"></span>
+                            <img src="{{ asset('../assets/img/avatars/2.png') }}" alt="alt"
+                                class="rounded-circle border border-3 border-primary shadow-sm" />
+                            <span
+                                class="position-absolute bottom-0 end-0 bg-success rounded-circle p-1 border border-2 border-white"></span>
                         </div>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end shadow-lg py-0 border-0">
@@ -88,7 +121,8 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">
-                                    <h6 class="mb-0 text-white">{{ Auth::user()->name . ' ' . Auth::user()->firstname }}</h6>
+                                    <h6 class="mb-0 text-white">{{ Auth::user()->name . ' ' . Auth::user()->firstname }}
+                                    </h6>
                                     <small class="text-white-50">{{ Auth::user()->email }}</small>
                                 </div>
                             </div>
@@ -97,17 +131,20 @@
                             <div class="dropdown-divider my-0"></div>
                         </li>
                         <li>
-                            <a class="dropdown-item py-2 px-3 d-flex align-items-center hover-bg-primary hover-bg-opacity-10" href="#">
+                            <a class="dropdown-item py-2 px-3 d-flex align-items-center hover-bg-primary hover-bg-opacity-10"
+                                href="#">
                                 <i class="ri-user-line me-2"></i> Mon profil
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item py-2 px-3 d-flex align-items-center hover-bg-primary hover-bg-opacity-10" href="#">
+                            <a class="dropdown-item py-2 px-3 d-flex align-items-center hover-bg-primary hover-bg-opacity-10"
+                                href="#">
                                 <i class="ri-settings-3-line me-2"></i> Paramètres
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item py-2 px-3 d-flex align-items-center hover-bg-primary hover-bg-opacity-10" href="{{ route('visite.index')}}">
+                            <a class="dropdown-item py-2 px-3 d-flex align-items-center hover-bg-primary hover-bg-opacity-10"
+                                href="{{ route('visite.index') }}">
                                 <span class="d-flex align-items-center w-100">
                                     <i class="ri-line-chart-line me-2"></i>
                                     <span>Visites aujourd'hui</span>
@@ -121,7 +158,8 @@
                         <li class="px-3 py-2">
                             <form action="{{ route('logout') }}" method="POST">
                                 @csrf
-                                <button class="btn btn-outline-danger w-100 d-flex justify-content-center align-items-center py-2">
+                                <button
+                                    class="btn btn-outline-danger w-100 d-flex justify-content-center align-items-center py-2">
                                     <i class="ri-logout-box-r-line me-2"></i>
                                     <span>Déconnexion</span>
                                 </button>
@@ -144,7 +182,7 @@
                         <span>STATS. VISITES</span>
                     </a>
                 </li>
-                
+
                 @if (Auth::check() && Auth::user()->statut == 3)
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('visite.create') ? 'active' : '' }} d-flex align-items-center"
@@ -161,7 +199,7 @@
                         </a>
                     </li>
                 @endif
-                
+
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('visite.index') ? 'active' : '' }} d-flex align-items-center"
                         href="{{ route('visite.index') }}">
@@ -169,7 +207,7 @@
                         <span>VOIR VISITES</span>
                     </a>
                 </li>
-                
+
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle d-flex align-items-center {{ request()->routeIs('categories.index', 'produits.index') ? 'active' : '' }}"
                         href="javascript:void(0);" data-bs-toggle="dropdown">
@@ -177,23 +215,23 @@
                         <span>CATALOGUE</span>
                     </a>
                     <div class="dropdown-menu shadow border-0">
-                        <a class="dropdown-item {{ request()->routeIs('categories.index') ? 'active' : '' }} py-2 px-3 d-flex align-items-center hover-bg-primary hover-bg-opacity-10" 
-                           href="{{ route('categories.index') }}">
+                        <a class="dropdown-item {{ request()->routeIs('categories.index') ? 'active' : '' }} py-2 px-3 d-flex align-items-center hover-bg-primary hover-bg-opacity-10"
+                            href="{{ route('categories.index') }}">
                             <i class="ri-folders-line me-2"></i> Catégories
                         </a>
-                        <a class="dropdown-item {{ request()->routeIs('produits.index') ? 'active' : '' }} py-2 px-3 d-flex align-items-center hover-bg-primary hover-bg-opacity-10" 
-                           href="{{ route('produits.index') }}">
+                        <a class="dropdown-item {{ request()->routeIs('produits.index') ? 'active' : '' }} py-2 px-3 d-flex align-items-center hover-bg-primary hover-bg-opacity-10"
+                            href="{{ route('produits.index') }}">
                             <i class="ri-box-2-line me-2"></i> Produits
                         </a>
                     </div>
                 </li>
-                
+
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('vente.vendre') ? 'active' : '' }} d-flex align-items-center"
                         href="{{ route('vente.vendre') }}">
                         <i class="ri-shopping-cart-2-line me-2"></i>
                         <span>VENTE</span>
-                        
+
                     </a>
                 </li>
 
@@ -204,7 +242,7 @@
                         <span>STATS DE VENTES</span>
                     </a>
                 </li>
-                
+
                 @if (Auth::check() && Auth::user()->statut == 2)
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('user.index') ? 'active' : '' }} d-flex align-items-center"
@@ -233,19 +271,23 @@
                 document.getElementById("visitCount").innerText = data.count;
             })
             .catch(error => console.error("Erreur chargement visites :", error));
-        
+
         // Animation des menus
         const navItems = document.querySelectorAll('.nav-link:not(.dropdown-toggle)');
         navItems.forEach(item => {
             item.addEventListener('mouseenter', () => {
-                item.classList.add('transition', 'transform', 'duration-300', 'hover:-translate-y-0.5');
+                item.classList.add('transition', 'transform', 'duration-300',
+                    'hover:-translate-y-0.5');
             });
             item.addEventListener('mouseleave', () => {
-                item.classList.remove('transition', 'transform', 'duration-300', 'hover:-translate-y-0.5');
+                item.classList.remove('transition', 'transform', 'duration-300',
+                    'hover:-translate-y-0.5');
             });
         });
     });
 </script>
+
+
 
 <style>
     /* Custom styles for premium look */
@@ -253,14 +295,14 @@
         background-color: #fff;
         box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
     }
-    
+
     .text-gradient-primary {
         background: linear-gradient(135deg, #7367F0 0%, #A66FFE 100%);
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
     }
-    
+
     .nav-pills .nav-link {
         border-radius: 0.75rem;
         padding: 0.75rem 1.5rem;
@@ -270,39 +312,46 @@
         border: 1px solid transparent;
         font-weight: 500;
     }
-    
+
     .nav-pills .nav-link:hover {
         transform: translateY(-2px);
         box-shadow: 0 4px 15px rgba(115, 103, 240, 0.15);
         border-color: rgba(115, 103, 240, 0.2);
     }
-    
+
     .nav-pills .nav-link.active {
         background: linear-gradient(135deg, #7367F0 0%, #A66FFE 100%);
         color: white !important;
         box-shadow: 0 4px 20px rgba(115, 103, 240, 0.3);
         border-color: rgba(255, 255, 255, 0.2);
     }
-    
+
     .dropdown-menu {
         border: none;
         animation: fadeIn 0.2s ease-in-out;
         border-radius: 0.75rem;
     }
-    
+
     .hover-bg-primary:hover {
         background-color: rgba(115, 103, 240, 0.1) !important;
     }
-    
+
     .hover-bg-opacity-100:hover {
         background-opacity: 1 !important;
     }
-    
+
     @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
-    
+
     .avatar-online::after {
         content: '';
         position: absolute;
@@ -314,11 +363,11 @@
         border-radius: 50%;
         border: 2px solid white;
     }
-    
+
     .notification-dropdown .dropdown-menu {
         min-width: 320px;
     }
-    
+
     .shadow-lg {
         box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
     }

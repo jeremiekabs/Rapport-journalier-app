@@ -5,6 +5,7 @@ use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\VisiteController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DashboardProduitController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProduitController;
 use App\Http\Controllers\VenteController;
 use App\Models\Vente;
@@ -73,4 +74,6 @@ Route::get('/vente/facture/{id}', [VenteController::class, 'facture'])->name('ve
 Route::get('/vente/rupture_stock',[VenteController::class, 'alertes'])->name('vente.rupture');
 Route::get('/vente', [VenteController::class, 'create'])->name('vente.create');
 Route::post('/vente', [VenteController::class, 'vendre'])->name('vente.vendre');
+
+Route::get('/notifications/fetch', [NotificationController::class, 'fetch'])->middleware('auth');
 

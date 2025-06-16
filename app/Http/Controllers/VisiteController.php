@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Visite;
+use App\Notifications\VisiteNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -67,6 +69,12 @@ class VisiteController extends Controller
 
         $resultat = $insert->save();
 
+        if (now()->isToday()) {
+            foreach (User::all() as $user) {
+                $user->notify(new VisiteNotification($insert));
+            }
+        }
+
         return redirect()->route('visite.index')->with('success_message', 'Visite enregistrée avec succès.');
     }
 
@@ -114,8 +122,8 @@ class VisiteController extends Controller
     }
     public function countTodayVisits()
     {
-        $today = Carbon::now()->format('Y-m-d'); 
-        $count = Visite::whereDate('date_enr', $today)->count(); 
+        $today = Carbon::now()->format('Y-m-d');
+        $count = Visite::whereDate('date_enr', $today)->count();
 
         return response()->json(['count' => $count]);
     }

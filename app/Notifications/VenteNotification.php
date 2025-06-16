@@ -2,11 +2,10 @@
 
 namespace App\Notifications;
 
-use App\Models\Vente;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use App\Models\Vente;
 
 class VenteNotification extends Notification implements ShouldQueue
 {
@@ -16,7 +15,8 @@ class VenteNotification extends Notification implements ShouldQueue
 
     public function __construct(Vente $vente)
     {
-        $this->vente = $vente;
+        // On évite de passer l’objet complet (avec relations) pour ne pas casser la sérialisation
+        $this->vente = $vente->only(['id', 'produit_id', 'quantite', 'prix_total']);
     }
 
     public function via($notifiable)
@@ -30,6 +30,7 @@ class VenteNotification extends Notification implements ShouldQueue
             'type' => 'vente',
             'title' => 'Nouvelle vente enregistrée',
             'icon' => 'ri-checkbox-circle-fill text-success',
+            'vente_id' => $this->vente['id'],
             'created_at' => now(),
         ];
     }

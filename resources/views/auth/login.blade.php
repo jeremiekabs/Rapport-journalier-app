@@ -11,7 +11,7 @@
 
     <style>
         body {
-            background: url("{{ asset('../assets/img/avatars/arriere.jpg') }}") no-repeat center center fixed;
+            background: url("{{ asset('../assets/img/avatars/bpcfu.png') }}") no-repeat center center fixed;
             background-size: cover;
         }
         .login-container {
@@ -38,7 +38,7 @@
     <div class="container login-container">
         <div class="card login-card">
             <div class="text-center">
-                <img src="{{ asset('../assets/img/avatars/smart.png') }}" alt="Logo">
+                <img src="{{ asset('../assets/img/avatars/bpcfu.png') }}" alt="Logo">
                 <h1 class="text-center text-primary">ESPACE DE CONNEXION</h1>
             </div>
 

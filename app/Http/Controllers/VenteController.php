@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Alerts_stock;
 use App\Models\Produit;
+use App\Models\User;
 use App\Models\Vente;
+use App\Notifications\VenteNotification;
 use Illuminate\Http\Request;
 
 class VenteController extends Controller
 {
+    
     public function index()
     {
         $ventes = Vente::with('produit')->orderBy('created_at', 'desc')->paginate(10);
@@ -43,6 +46,12 @@ class VenteController extends Controller
 
             // Vérification après la vente
             $produit->verifierStock();
+
+            if (now()->isToday()) {
+                foreach (User::all() as $user) {
+                    $user->notify(new VenteNotification($vente));
+                }
+            }
 
             return redirect()->route('vente.facture', ['id' => $vente->id])->with('success', 'Vente enregistrée avec succès.');
         }

@@ -46,12 +46,13 @@ class VisiteEmail extends Mailable
             view: 'emails.visite',
         );
     }
-    // public function build()
-    // {
-    //     return $this->subject($this->subject)
-    //         ->view('emails.visite')
-    //         ->with(['content' => $this->content]);
-    // }
+    
+    public function build()
+    {
+        return $this->subject($this->subject)
+            ->view('emails.visite')
+            ->with(['content' => $this->content]);
+    }
 
     /**
      * Get the attachments for the message.

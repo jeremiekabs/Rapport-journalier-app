@@ -8,7 +8,7 @@
         {!! nl2br(e($content)) !!}
         
         <p style="margin-top: 20px; color: #666;">
-            Cet email vous a été envoyé depuis le système de gestion des visites.
+            Cet email vous a été envoyé depuis l'application <strong>Business Preparedness and Customer Follow Up</strong>.
         </p>
     </div>
 </body>

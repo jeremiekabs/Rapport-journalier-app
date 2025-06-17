@@ -8,6 +8,9 @@ use App\Notifications\VisiteNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\VisiteEmail;
+
 
 class VisiteController extends Controller
 {
@@ -120,11 +123,35 @@ class VisiteController extends Controller
         $visite->delete();
         return redirect()->route('visite.index')->with('success_message', 'Visite supprimée avec succès.');
     }
+
     public function countTodayVisits()
     {
         $today = Carbon::now()->format('Y-m-d');
         $count = Visite::whereDate('date_enr', $today)->count();
 
         return response()->json(['count' => $count]);
+    }
+
+    public function sendEmail(Request $request, $id)
+    {
+        $visite = Visite::findOrFail($id);
+
+        $request->validate([
+            'email' => 'required|email',
+            'subject' => 'required|string|max:255',
+            'content' => 'required|string'
+        ]);
+
+        try {
+            Mail::to($request->email)
+                ->send(new VisiteEmail($request->subject, $request->content));
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 }

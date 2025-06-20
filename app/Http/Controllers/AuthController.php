@@ -84,4 +84,30 @@ class AuthController extends Controller
             dd($th);
         }
     }
+
+    // Dans app/Http/Requests/RegisterRequest.php
+
+    public function rules()
+    {
+        return [
+            'name' => 'required|string|max:255',
+            'firstname' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+                'confirmed',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/'
+            ],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'password.regex' => 'Le mot de passe doit contenir au moins une majuscule, une minuscule et un chiffre.',
+            'password.min' => 'Le mot de passe doit contenir au moins 8 caractères.'
+        ];
+    }
 }

@@ -11,8 +11,7 @@
         <!-- Brand/Logo -->
         <div class="navbar-brand-wrapper d-none d-xl-flex align-items-center me-4">
             <span class="logo-text fw-bolder fs-4 text-gradient-primary">
-                <span class="text-primary">Admin</span><span class="text-dark">Pro</span>
-                <sup class="badge bg-primary bg-opacity-10 text-primary fs-xs ms-1">PREMIUM</sup>
+                <img src="{{ asset('../assets/img/avatars/bpcfu.png') }}" class="login-logo" alt="">
             </span>
         </div>
 
@@ -49,7 +48,8 @@
                             <div class="text-center py-3"><em>Chargement...</em></div>
                         </div>
                         <div class="dropdown-menu-footer bgx²light">
-                            <a href="" class="text-primary d-block text-center py-2">Nous ne recuperons que les 8 derniers notifications</a>
+                            <a href="" class="text-primary d-block text-center py-2">Nous ne recuperons que les 8
+                                derniers notifications</a>
                         </div>
                     </div>
 
@@ -294,6 +294,11 @@
     .bg-navbar-theme {
         background-color: #fff;
         box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .login-logo {
+        width: 170px;
+        margin-bottom: 1.5rem;
     }
 
     .text-gradient-primary {

@@ -66,7 +66,7 @@
         }
         
         .brand-logo {
-            width: 120px;
+            width: 300px;
             margin-bottom: 2rem;
             filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
         }
@@ -100,7 +100,7 @@
         }
         
         .login-logo {
-            width: 80px;
+            width: 100px;
             margin-bottom: 1.5rem;
         }
         
@@ -257,9 +257,6 @@
                             <input type="password" name="password" 
                                    class="form-control" id="passwordInput" placeholder="Mot de passe" required>
                             <label for="passwordInput"><i class="ri-lock-2-line me-2"></i>Mot de passe</label>
-                        </div>
-                        <div class="text-end mt-2">
-                            <a href="#" class="text-decoration-none text-muted small">Mot de passe oublié ?</a>
                         </div>
                     </div>
                     

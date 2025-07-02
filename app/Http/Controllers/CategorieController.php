@@ -8,7 +8,7 @@ class CategorieController extends Controller
 {
     public function index()
     {
-        $categories = Categorie::orderBy('created_at', 'Desc')->get();
+        $categories = Categorie::orderBy('created_at', 'Desc')->paginate(6);
         return view('categorie.index', compact('categories'));
     }
 

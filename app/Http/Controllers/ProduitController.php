@@ -10,7 +10,7 @@ class ProduitController extends Controller
 {
     public function index()
     {
-        $produits = Produit::with('categorie')->orderBy('created_at', 'Desc')->get();
+        $produits = Produit::with('categorie')->orderBy('created_at', 'Desc')->paginate(6);
         return view('produit.index', compact('produits'));
     }
 
@@ -28,19 +28,36 @@ class ProduitController extends Controller
             'prix_achat' => 'required|numeric|min:0',
             'indice' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
-            'categorie_id' => 'required|exists:categories,id'
+            'categorie_id' => 'required|exists:categories,id',
+            'photo' => 'nullable|mimes:png,jpeg,jpg|max:2048',
         ]);
+
+        $filePath = public_path('imagesproduit');
+
+        // Création du dossier s'il n'existe pas
+        if (!file_exists($filePath)) {
+            mkdir($filePath, 0755, true);
+        }
+
+        $data = $request->all();
+
+        // Gestion du téléchargement de l'image
+        if ($request->hasFile('photo')) {
+            $image = $request->file('photo');
+            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+            $image->move($filePath, $imageName);
+            $data['photo'] = 'imagesproduit/' . $imageName;
+        }
 
         // Calcul du prix et du gain
-        $request->merge([
-            'prix' => $request->prix_achat * $request->indice,
-            'gain' => ($request->prix_achat * $request->indice) - $request->prix_achat,
-        ]);
+        $data['prix'] = $request->prix_achat * $request->indice;
+        $data['gain'] = $data['prix'] - $request->prix_achat;
 
-        Produit::create($request->all());
+        Produit::create($data);
 
         return redirect()->route('produits.index')->with('success', 'Produit ajouté avec succès.');
     }
+
 
 
     public function edit(Produit $produit)

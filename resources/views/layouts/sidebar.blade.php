@@ -223,6 +223,14 @@
                             href="{{ route('produits.index') }}">
                             <i class="ri-box-2-line me-2"></i> Produits
                         </a>
+                        <a class="dropdown-item {{ request()->routeIs('partenaire.index') ? 'active' : '' }} py-2 px-3 d-flex align-items-center hover-bg-primary hover-bg-opacity-10"
+                            href="{{ route('partenaire.index') }}">
+                            <i class="ri-box-2-line me-2"></i> Partenaires
+                        </a>
+                        <a class="dropdown-item {{ request()->routeIs('service.index') ? 'active' : '' }} py-2 px-3 d-flex align-items-center hover-bg-primary hover-bg-opacity-10"
+                            href="{{ route('service.index') }}">
+                            <i class="ri-box-2-line me-2"></i> Services
+                        </a>
                     </div>
                 </li>
 

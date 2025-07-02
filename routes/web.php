@@ -6,7 +6,9 @@ use App\Http\Controllers\VisiteController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DashboardProduitController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PartenaireController;
 use App\Http\Controllers\ProduitController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\VenteController;
 use App\Models\Vente;
 
@@ -43,6 +45,21 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/categories/{categorie}/edit', [CategorieController::class, 'edit'])->name('categories.edit');
     Route::put('/categories/{categorie}', [CategorieController::class, 'update'])->name('categories.update');
     Route::delete('/categories/{categorie}', [CategorieController::class, 'destroy'])->name('categories.destroy');
+
+    Route::get('/partenaire', [PartenaireController::class, 'index'])->name('partenaire.index');
+    Route::get('/partenaire/create', [PartenaireController::class, 'create'])->name('partenaire.create');
+    Route::post('/partenaire', [PartenaireController::class, 'store'])->name('partenaire.store');
+    Route::get('/partenaire/{partenaire}/edit', [PartenaireController::class, 'edit'])->name('partenaire.edit');
+    Route::put('/partenaire/{partenaire}', [PartenaireController::class, 'update'])->name('partenaire.update');
+    Route::delete('/partenaire/{partenaire}', [PartenaireController::class, 'destroy'])->name('partenaire.destroy');
+
+    Route::get('/service', [ServiceController::class, 'index'])->name('service.index');
+    Route::get('/service/create', [ServiceController::class, 'create'])->name('service.create');
+    Route::post('/service', [ServiceController::class, 'store'])->name('service.store');
+    Route::get('/service/{service}/edit', [ServiceController::class, 'edit'])->name('service.edit');
+    Route::put('/service/{service}', [ServiceController::class, 'update'])->name('service.update');
+    Route::delete('/service/{service}', [ServiceController::class, 'destroy'])->name('service.destroy');
+
 
     Route::get('/produits', [ProduitController::class, 'index'])->name('produits.index');
     Route::get('/produits/create', [ProduitController::class, 'create'])->name('produits.create');

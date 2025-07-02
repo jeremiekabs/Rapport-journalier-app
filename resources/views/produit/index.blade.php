@@ -52,8 +52,8 @@
                                     <th class="py-3 text-uppercase small fw-bold">Catégorie</th>
                                     <th class="py-3 text-uppercase small fw-bold">Prix</th>
                                     <th class="py-3 text-uppercase small fw-bold">Stock</th>
-                                    <th class="py-3 text-uppercase small fw-bold">Modifié le</th>
                                     <th class="py-3 text-uppercase small fw-bold">Description</th>
+                                    <th class="py-3 text-uppercase small fw-bold">Mises à jour</th>
                                     <th class="pe-4 py-3 text-uppercase small fw-bold text-end">Actions</th>
                                 </tr>
                             </thead>
@@ -84,7 +84,7 @@
                                             </span>
                                         </td>
                                         <td class="fw-bold text-success">
-                                            {{ $produit->description }} 
+                                            {{ $produit->description }}
                                         </td>
                                         <td>
                                             <span class="badge bg-light text-dark border rounded-pill px-5">
@@ -138,6 +138,17 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="card-footer bg-white border-0 py-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="text-muted small">
+                                    Affichage de {{ $produits->firstItem() }} à {{ $produits->lastItem() }} sur
+                                    {{ $produits->total() }} entrées
+                                </div>
+                                <div>
+                                    {{ $produits->appends(request()->query())->links('pagination::bootstrap-5') }}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 @else
                     <div class="text-center p-5">

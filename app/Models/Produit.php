@@ -15,7 +15,8 @@ class Produit extends Model
         "prix",
         "gain",
         "stock",
-        "categorie_id"
+        "categorie_id",
+        "photo"
     ];
 
     public function categorie()

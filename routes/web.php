@@ -68,6 +68,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/produits/{produit}', [ProduitController::class, 'update'])->name('produits.update');
     Route::delete('/produits/{produit}', [ProduitController::class, 'destroy'])->name('produits.destroy');
     Route::get('/produits/{produit}', [ProduitController::class, 'show'])->name('produits.show');
+    Route::get('/produit/all', [ProduitController::class, 'produitall'])->name('produits.produitall');
 
     Route::get('/dashboard', [DashboardProduitController::class, 'index'])->name('dashboardProduit');
 

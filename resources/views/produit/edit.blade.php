@@ -17,7 +17,7 @@
                 <p class="edit-subtitle">Modifiez les détails de votre produit</p>
             </div>
 
-            <form action="{{ route('produits.update', $produit->id) }}" method="POST" class="edit-product-form">
+            <form action="{{ route('produits.update', $produit->id) }}" method="POST" enctype="multipart/form-data" class="edit-product-form">
                 @csrf
                 @method('PUT')
 
@@ -84,6 +84,13 @@
                 <div class="form-floating floating-label-group description-group">
                     <textarea name="description" id="description" class="form-control floating-textarea">{{ $produit->description }}</textarea>
                     <label class="floating-label">Description du Produit</label>
+                </div>
+
+                <!-- Champ d'image -->
+                <div class="mb-4">
+                    <label for="image" class="form-label fw-semibold">Image du produit</label>
+                    <input type="file" name="photo" id="image" class="form-control">
+                    <div class="form-text">Formats acceptés : JPG, JPEG, PNG. Max: 2MB.</div>
                 </div>
 
                 <!-- Form Actions -->

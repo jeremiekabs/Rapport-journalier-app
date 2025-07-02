@@ -21,7 +21,7 @@
                 <!-- Workspace Button -->
                 <li class="nav-item lh-1 me-2">
                     <a class="btn btn-outline-primary btn-sm rounded-pill px-3 d-flex align-items-center"
-                        href="#">
+                        href="{{ route('produits.produitall') }}">
                         <i class="ri-share-box-line me-1"></i>
                         <span class="d-none d-lg-inline">Espace de travail</span>
                     </a>
